@@ -206,6 +206,26 @@ $("locate").addEventListener("click", () => {
   );
 });
 
+// address search
+async function searchAddress() {
+  const q = $("address").value.trim();
+  if (!q) return;
+  setStatus("Searching address…");
+  try {
+    const results = await api.geocode(q);
+    if (!results.length) { setStatus(`No match for "${q}"`, "error"); return; }
+    const best = results[0];
+    map.setView([best.lat, best.lon], 16);
+    if (mode === "loop") clearWaypoints();
+    pushHistory();
+    addWaypoint(L.latLng(best.lat, best.lon));
+    regenerate(mode === "loop");
+    setStatus(`Found: ${best.label}\n(name it below and hit Save to keep it)`, "ok");
+  } catch (e) { setStatus(e.message, "error"); }
+}
+$("address-go").addEventListener("click", searchAddress);
+$("address").addEventListener("keydown", (e) => { if (e.key === "Enter") searchAddress(); });
+
 // saved locations
 async function refreshLocations() {
   const locations = await api.locations();

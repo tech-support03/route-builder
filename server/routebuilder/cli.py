@@ -73,7 +73,7 @@ def main() -> None:
     p = sub.add_parser("location", help="manage saved locations")
     p.add_argument("action", choices=["list", "set", "delete"])
     p.add_argument("name", nargs="?")
-    p.add_argument("point", nargs="?", help="lat,lon (for set)")
+    p.add_argument("point", nargs="*", help="lat,lon or a street address (for set)")
 
     p = sub.add_parser("login", help="log in to Garmin Connect (tokens persist)")
     p.add_argument("email")
@@ -105,11 +105,22 @@ def main() -> None:
             print(json.dumps(locations, indent=2))
         elif args.action == "set":
             if not args.name or not args.point:
-                sys.exit("Usage: routebuilder location set <name> <lat,lon>")
-            lat, lon = _parse_point(args.point)
+                sys.exit('Usage: routebuilder location set <name> <lat,lon | street address>')
+            query = " ".join(args.point)
+            try:
+                lat, lon = _parse_point(query)
+                label = None
+            except ValueError:
+                from . import geocode
+
+                try:
+                    match = geocode.geocode_one(query)
+                except geocode.GeocodeError as e:
+                    sys.exit(str(e))
+                lat, lon, label = match["lat"], match["lon"], match["label"]
             locations[args.name] = {"lat": lat, "lon": lon}
             config.save_locations(locations)
-            print(f"Saved {args.name} = {lat},{lon}")
+            print(f"Saved {args.name} = {lat},{lon}" + (f"  ({label})" if label else ""))
         elif args.action == "delete":
             locations.pop(args.name, None)
             config.save_locations(locations)

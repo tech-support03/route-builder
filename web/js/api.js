@@ -19,6 +19,7 @@ export const api = {
   outAndBack: (start, turnaround, profile, preset) =>
     call("POST", "/api/outandback", { start, turnaround, profile, preset }),
   presets: () => call("GET", "/api/presets"),
+  geocode: (q) => call("GET", `/api/geocode?q=${encodeURIComponent(q)}`),
   export: (payload) => call("POST", "/api/export", payload),
   locations: () => call("GET", "/api/locations"),
   saveLocation: (name, lat, lon) => call("POST", `/api/locations/${encodeURIComponent(name)}`, { lat, lon }),

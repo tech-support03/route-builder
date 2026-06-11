@@ -8,7 +8,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import config, garmin, gpx, routing
+from . import config, garmin, geocode, gpx, routing
 
 app = FastAPI(title="route-builder")
 
@@ -121,6 +121,14 @@ def api_gpx_download(filename: str):
     if not path.is_file() or path.parent != config.GPX_DIR.resolve():
         raise HTTPException(status_code=404, detail="No such GPX")
     return FileResponse(path, media_type="application/gpx+xml", filename=path.name)
+
+
+@app.get("/api/geocode")
+def api_geocode(q: str):
+    try:
+        return geocode.geocode(q)
+    except geocode.GeocodeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
 
 
 @app.get("/api/locations")

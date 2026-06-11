@@ -20,6 +20,7 @@ uv run routebuilder loop --at 37.77,-122.45 --km 8 --preset hilly --seed 2 --upl
 uv run routebuilder outback --from home --to 37.80,-122.42 --name "Bridge out-and-back"
 uv run routebuilder location list
 uv run routebuilder location set work 37.79,-122.40
+uv run routebuilder location set home 450 Jersey St, San Francisco, CA   # addresses work too (geocoded via Nominatim)
 uv run routebuilder status          # Garmin login state
 ```
 
