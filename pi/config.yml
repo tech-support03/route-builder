@@ -23,7 +23,7 @@ graphhopper:
 
   # Needed by the bundled foot/hike models plus the request-time custom models
   # (trail preference, flat routes) sent by the route-builder backend.
-  graph.encoded_values: foot_access, foot_priority, foot_average_speed, hike_rating, road_class, road_environment, surface, average_slope, foot_road_access
+  graph.encoded_values: foot_access, foot_priority, foot_average_speed, hike_rating, road_class, road_environment, surface, average_slope, foot_road_access, country, mtb_rating, foot_network
 
   # Flexible-mode routing limits; running routes are short so this is generous.
   routing.non_ch.max_visited_nodes: 1000000

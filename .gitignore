@@ -7,9 +7,9 @@ __pycache__/
 node_modules/
 dist/
 
-# Generated routes (contain personal locations)
+# Generated routes and saved places (contain personal locations)
 gpx/
-routes/
+userdata/
 
 # GraphHopper data (large, machine-local)
 data/
