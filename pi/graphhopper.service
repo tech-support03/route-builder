@@ -1,0 +1,14 @@
+[Unit]
+Description=GraphHopper routing engine (route-builder)
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/graphhopper
+ExecStart=/usr/bin/java -Xmx1500m -jar graphhopper-web-11.0.jar server config.yml
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

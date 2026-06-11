@@ -12,9 +12,10 @@ gpx/
 routes/
 
 # GraphHopper data (large, machine-local)
+data/
 graph-cache/
+elevation-cache/
 *.osm.pbf
-srtm/
 *.jar
 
 # Secrets / tokens
