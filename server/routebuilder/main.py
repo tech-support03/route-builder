@@ -181,10 +181,10 @@ def api_garmin_login(req: LoginRequest):
     return garmin.status()
 
 
-# Serve the built frontend when present (web/dist); vite dev proxies to us otherwise.
-_dist = Path(__file__).resolve().parent.parent.parent / "web" / "dist"
-if _dist.is_dir():
-    app.mount("/", StaticFiles(directory=_dist, html=True), name="frontend")
+# Serve the frontend (no build step: plain ES modules under web/).
+_web = Path(__file__).resolve().parent.parent.parent / "web"
+if _web.is_dir():
+    app.mount("/", StaticFiles(directory=_web, html=True), name="frontend")
 
 
 def serve():

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>route-builder</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="panel">
+      <h1>route-builder</h1>
+
+      <div class="modes" id="modes">
+        <button data-mode="manual" class="active" title="Click the map to drop waypoints">Manual</button>
+        <button data-mode="loop" title="Click a start point, get a loop">Loop</button>
+        <button data-mode="outback" title="Click start, then turnaround">Out &amp; back</button>
+      </div>
+      <p class="hint" id="mode-hint">Click the map to add waypoints. Drag to move, right-click to remove.</p>
+
+      <section id="loop-controls" hidden>
+        <label>Distance <span id="km-label">10.0</span> km
+          <input type="range" id="km" min="1" max="42" step="0.5" value="10" />
+        </label>
+        <label>Direction
+          <select id="heading">
+            <option value="">Any</option>
+            <option value="0">N</option><option value="45">NE</option>
+            <option value="90">E</option><option value="135">SE</option>
+            <option value="180">S</option><option value="225">SW</option>
+            <option value="270">W</option><option value="315">NW</option>
+          </select>
+        </label>
+        <button id="shuffle">&#x1F3B2; Different loop</button>
+      </section>
+
+      <section>
+        <label>Style
+          <select id="preset"></select>
+        </label>
+        <label>Profile
+          <select id="profile">
+            <option value="foot">foot (urban running)</option>
+            <option value="hike">hike (trails)</option>
+          </select>
+        </label>
+      </section>
+
+      <section>
+        <div class="row">
+          <button id="locate">&#x1F4CD; Locate me</button>
+          <select id="locations"><option value="">Saved places&hellip;</option></select>
+        </div>
+        <div class="row">
+          <input id="loc-name" placeholder="name this start point" />
+          <button id="loc-save">Save</button>
+        </div>
+      </section>
+
+      <section id="stats" hidden>
+        <div><b id="stat-dist">&ndash;</b> km</div>
+        <div>&#x25B2; <b id="stat-up">&ndash;</b> m</div>
+        <div>&#x25BC; <b id="stat-down">&ndash;</b> m</div>
+      </section>
+
+      <section>
+        <input id="route-name" placeholder="route name" value="My route" />
+        <div class="row">
+          <button id="download" disabled>&#x2B07; GPX</button>
+          <button id="send-garmin" disabled class="primary">&#x27A4; Send to Garmin</button>
+        </div>
+        <div class="row">
+          <button id="save-route" disabled>Save route</button>
+          <select id="load-route"><option value="">Load route&hellip;</option></select>
+        </div>
+        <div class="row">
+          <button id="undo">&#x21B6; Undo</button>
+          <button id="clear">Clear</button>
+        </div>
+      </section>
+
+      <section id="garmin">
+        <div id="garmin-status" class="hint">Garmin: checking&hellip;</div>
+        <form id="garmin-login" hidden>
+          <input id="g-email" type="email" placeholder="Garmin email" required />
+          <input id="g-pass" type="password" placeholder="password" required />
+          <input id="g-mfa" placeholder="MFA code (if enabled)" />
+          <button type="submit">Log in</button>
+        </form>
+      </section>
+
+      <div id="status"></div>
+    </aside>
+
+    <main id="map"></main>
+    <div id="elevation" hidden><canvas id="elev-canvas"></canvas></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
