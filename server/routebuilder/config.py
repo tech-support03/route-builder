@@ -13,7 +13,7 @@ DATA_DIR = Path(os.environ.get("ROUTEBUILDER_DATA_DIR", REPO_ROOT / "userdata"))
 LOCATIONS_FILE = DATA_DIR / "locations.json"
 ROUTES_DIR = DATA_DIR / "routes"
 
-GARTH_HOME = os.environ.get("GARTH_HOME", os.path.expanduser("~/.garth"))
+GARMIN_TOKENS = os.environ.get("GARMIN_TOKENS", os.path.expanduser("~/.garminconnect"))
 
 
 def load_locations() -> dict[str, dict]:
