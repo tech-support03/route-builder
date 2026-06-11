@@ -20,7 +20,9 @@ if [ "$(uname -m)" != "aarch64" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y openjdk-17-jre-headless
+# GraphHopper 11 needs Java >= 17; default-jre-headless tracks the distro's
+# current JDK (21 on trixie) so this survives Debian version bumps.
+sudo apt-get install -y default-jre-headless
 
 mkdir -p "${INSTALL_DIR}"
 cd "${INSTALL_DIR}"
@@ -48,7 +50,11 @@ elif [ ! -d graph-cache ]; then
 fi
 
 echo "Installing systemd service..."
-sudo cp "${SCRIPT_DIR}/graphhopper.service" /etc/systemd/system/
+# The unit ships with User=pi / /home/pi paths; substitute whoever is running
+# this script so it works on Pis with a different default user.
+sed -e "s|^User=.*|User=${USER}|" \
+    -e "s|^WorkingDirectory=.*|WorkingDirectory=${INSTALL_DIR}|" \
+  "${SCRIPT_DIR}/graphhopper.service" | sudo tee /etc/systemd/system/graphhopper.service >/dev/null
 sudo systemctl daemon-reload
 sudo systemctl enable --now graphhopper
 
