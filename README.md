@@ -12,6 +12,30 @@ Personal running-route builder with one-click export to Garmin courses.
 - **Claude Code skill**: conversational route generation ("give me a hilly 10k loop
   from home") reusing the same backend.
 
+## Running it
+
+```sh
+# 1. routing engine (desktop dev instance; see pi/README.md for the Pi)
+cd data && ./jre/bin/java -Xmx2g -jar graphhopper-web-11.0.jar server ../pi/config.yml &
+
+# 2. backend + web UI  ->  http://localhost:8990
+cd server && uv run routebuilder serve
+
+# 3. (one-time) log in to Garmin so "Send to Garmin" works
+cd server && uv run routebuilder login <email>
+```
+
+First-time desktop setup: `data/bootstrap.sh` downloads the JRE, GraphHopper,
+and the NorCal OSM extract, then builds the routing graph.
+
+CLI (what the Claude Code skill drives):
+
+```sh
+uv run routebuilder loop --from home --km 10 --preset hilly --upload
+uv run routebuilder outback --from home --to 37.80,-122.42
+uv run routebuilder location set home <lat,lon>
+```
+
 ## Layout
 
 | Path | What |
