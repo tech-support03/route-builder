@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node
+node_modules/
+dist/
+
+# Generated routes (contain personal locations)
+gpx/
+routes/
+
+# GraphHopper data (large, machine-local)
+graph-cache/
+*.osm.pbf
+srtm/
+*.jar
+
+# Secrets / tokens
+.garth/
+*.token
+.env
+
+# Editor
+.idea/
+.vscode/
